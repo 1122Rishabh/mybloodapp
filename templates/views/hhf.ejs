@@ -1,0 +1,43 @@
+
+<!DOCTYPE hrml>
+
+<html>
+<head>
+
+    
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+  
+
+    <body>
+      <h1>hii</h1>
+ 
+  <table class="table">
+    <thead>
+
+      <tr>
+        <th>firstname</th>
+        <th>email</th>
+        <th>phonenumber</th>
+        <th>createpassword</th>
+        <th>repeatpassword</th>
+        <th>selectjob</th>
+      </tr>
+    </thead>
+    <% records.forEach(function(row){%>
+    <tr>
+      <td><%= row.firstname%>,<br><%=row.email %>,<br><%= row.phonenumber %></td>
+      <!-- <td><%= row.email %></td>
+      <td><%= row.phonenumber %></td>
+      <td><%= row.createpassword %></td>
+      <td><%= row.repeatpassword %></td>
+      <td><%= row.selectjob %></td> -->
+    </tr>
+    <% }) %>
+ 
+    </table>
+  </body>
+  </html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<% if(recipe != null ) { %>
+
+    <!-- <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page" style="text-align: center;"><%- recipe.firstname %></li>
+      </ol>
+    </nav> -->
+  
+
+    <div class="card mb-3">
+      <div class="card-body" style="margin-top: 30px;border-radius: 15%;">
+      <img  src="/uploads/<%- recipe.image %>" class="center" style="padding-left: 570px;padding-right:570 px;max-height: 15rem;max-width:14rem;text-align: center;" alt="<%- recipe.name %>" loading="lazy">
+
+        <div class="col-12"style="text-align: center;"><h1><%- recipe.firstname %></h1></div>
+        <div class="col-12 mb-4" style="text-align: center;font-weight: bold;"><i class="bi bi-tag"></i> <h1><%- recipe.phonenumber %></div>
+        <div class="col-12" style="white-space: pre-line;text-align: center;font-weight: bold;"><h1><%- recipe.email %></h1> </div>
+
+      </div>
+    </div>
+    
+  <% } else { %>
+    <p>No item found.</p>
+  <% } %>
+
+</body>
+</html>
