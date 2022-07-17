@@ -12,8 +12,8 @@ require("./src/db/conn");
 const Register=require("./src/models/registers")
 const port= process.env.PORT || 5000
 const static_path=path.join(__dirname,"../public")
-const template_path=path.join(__dirname,"../templates/views");
-const partials_path=path.join(__dirname,"../templates/partials");
+const template_path=path.join(__dirname,"./templates/views");
+const partials_path=path.join(__dirname,"./templates/partials");
 
 
 
