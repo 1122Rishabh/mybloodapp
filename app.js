@@ -8,7 +8,7 @@ const router=express.Router()
 const multer =require("multer");
 const bodyParser = require('body-parser');
 const fs = require('fs');
-require("./db/conn");
+require("./src/db/conn");
 const Register=require("./models/registers")
 const port= process.env.PORT || 5000
 const static_path=path.join(__dirname,"../public")
