@@ -4,13 +4,9 @@ const path = require("path")
 const hbs = require("hbs");
 const ejs=require("ejs");
 const user_route = express();
-// const session=require("express-session");
-const config = require("./config/config");
-// user_route.use(session({secret:config.sessionSecret}));
 const router=express.Router()
 const multer =require("multer");
 const bodyParser = require('body-parser');
-  
 const fs = require('fs');
 require("./db/conn");
 const Register=require("./models/registers")
@@ -23,9 +19,6 @@ const partials_path=path.join(__dirname,"../templates/partials");
 
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
-// app.use(bodyParser.json())
-// app.use(bodyParser.urlencoded({ extended: true }))
-
 app.use(express.static(static_path));
 app.set("view engine","hbs");
 app.set('view engine','ejs');
