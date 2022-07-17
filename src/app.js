@@ -175,9 +175,8 @@ app.get('/contact',(req,res)=>{
     res.render("contact")
 
 });
-app.get('',(req,res)=>{
+app.get('/',(req,res)=>{
    res.render("index");
-   res.send('hii all');
 });
 app.get('/login',(req,res)=>{
     res.render("login")
