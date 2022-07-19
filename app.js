@@ -24,9 +24,9 @@ const port= process.env.PORT || 5000
 const static_path=path.join(__dirname,"./public")
 const template_path=path.join(__dirname,"./templates/views");
 const partials_path=path.join(__dirname,"./templates/partials");
-const auth = require("../Blood Website/middleware/auth");
-const auth1 = require("../Blood Website/middleware/auth");
-const auth2 = require("../Blood Website/middleware/auth");
+const auth = require("./middleware/auth");
+const auth1 = require("./middleware/auth");
+const auth2 = require("./middleware/auth");
 
 
 const cookieParser = require('cookie-parser');
