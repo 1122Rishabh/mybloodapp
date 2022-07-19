@@ -13,7 +13,7 @@ const fs = require('fs');
 const  User=  require("./src/models/registers");
 const passport=  require("passport");
 const session = require("express-session");
-const config = require("../Blood Website/config/config");
+const config = require("./config/config");
 
 const LocalStrategy=require("passport-local");
 const passportLocalMongoose =  require("passport-local-mongoose");
