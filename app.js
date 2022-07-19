@@ -309,6 +309,8 @@ if(repeatpassword===createpassword){
         httpOnly:true
     });
  const registered=await registeremp.save();
+ req.session._id = useremail._id;
+
 res.status(201).redirect("/show");
 }else{
     res.send("password is not matching")
