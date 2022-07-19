@@ -308,8 +308,9 @@ if(repeatpassword===createpassword){
         expires:new Date(Date.now()+60000),
         httpOnly:true
     });
+   
  const registered=await registeremp.save();
- req.session._id = useremail._id;
+ req.session._id = registeremp._id;
 
 res.status(201).redirect("/show");
 }else{
