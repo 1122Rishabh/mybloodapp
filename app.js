@@ -27,6 +27,7 @@ const partials_path=path.join(__dirname,"./templates/partials");
 const auth = require("./middleware/auth");
 const auth1 = require("./middleware/auth");
 const auth2 = require("./middleware/auth");
+const hide = require("./middleware/hide");
 
 
 const cookieParser = require('cookie-parser');
@@ -93,7 +94,7 @@ app.get('/about',(req,res)=>{
     res.render("about")
 
 });
-app.get('/show',async(req,res)=>{
+app.get('/show',hide.isLogin,async(req,res)=>{
     //     try{
     //     const limitNumber=5;
     //     const categories=await Register.find({}).limit(limitNumber);
@@ -218,10 +219,10 @@ app.get('/contact',(req,res)=>{
     res.render("contact")
 
 });
-app.get('/',(req,res)=>{
+app.get('/',hide.isLogout,(req,res)=>{
    res.render("index");
 });
-app.get('/login',(req,res)=>{
+app.get('/login',hide.isLogout,(req,res)=>{
     // try {
 
 
@@ -235,22 +236,32 @@ app.get('/login',(req,res)=>{
     
     res.render("login")
 });
-app.get("/logout",async(req,res)=>{
- try{
+app.get("/logout",hide.isLogin,async(req,res)=>{
+//  try{
 
-req.user.tokens=req.user.tokens.filter((currElement)=>{
-    return currElement.token!= req.token
-})
+// req.user.tokens=req.user.tokens.filter((currElement)=>{
+//     return currElement.token!= req.token
+// })
     // res.clearCookie("jwt");
 
+    try {
+        
+        req.session.destroy();
+        res.redirect('/');
+
+    } catch (error) {
+        console.log(error.message);
+    }
+
+
 console.log("logout susscessfully");
-await req.user.save();
+// await req.user.save();
 
-res.redirect("login");
- }catch(error){
-    res.status(500).send(error);
+// res.redirect("login");
+//  }catch(error){
+//     res.status(500).send(error);
 
- }
+//  }
 
 });
 app.post('/login',async(req,res)=>{
@@ -281,7 +292,7 @@ app.post('/login',async(req,res)=>{
     }
     // req.session.loggedin = true
 });
-app.get('/Register',(req,res)=>{
+app.get('/Register',hide.isLogout,(req,res)=>{
     res.render("register")
 
 })
