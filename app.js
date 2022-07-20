@@ -235,13 +235,13 @@ app.get('/login',(req,res)=>{
     
     res.render("login")
 });
-app.get("/logout",auth1,async(req,res)=>{
+app.get("/logout",async(req,res)=>{
  try{
 
 req.user.tokens=req.user.tokens.filter((currElement)=>{
     return currElement.token!= req.token
 })
-    res.clearCookie("jwt");
+    // res.clearCookie("jwt");
 
 console.log("logout susscessfully");
 await req.user.save();
