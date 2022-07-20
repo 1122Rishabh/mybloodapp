@@ -55,20 +55,20 @@ const storage = multer.diskStorage({
     },
 });
 
-// const fileFilter=(req,res,cb)=>{
-//     if(file.mimetype==='image/jpeg' || file.mimetype==='image/jpg' || file.mimetype==='image/png'){
-//         cb(null,true);
-//     }else{
-//         cb(null,false);
-//     }
+const fileFilter=(req,file,cb)=>{
+    if(file.mimetype==='image/jpeg' || file.mimetype==='image/jpg' || file.mimetype==='image/png'){
+        cb(null,true);
+    }else{
+        cb(null,false);
+    }
 
-// };
+};
 
 var upload=multer({storage:storage,
-    // limits:{
-    //     fileSize:1024*1024*5
-    // },
-    // fileFilter:fileFilter
+    limits:{
+        fileSize:1024*1024*5
+    },
+    fileFilter:fileFilter
 }).single('image')
 
 // const upload = multer({ storage: storage });
@@ -264,6 +264,8 @@ console.log("logout susscessfully");
 //  }
 
 });
+
+
 app.post('/login',async(req,res)=>{
     try{
        
@@ -292,6 +294,7 @@ app.post('/login',async(req,res)=>{
     }
     // req.session.loggedin = true
 });
+
 app.get('/Register',hide.isLogout,(req,res)=>{
     res.render("register")
 
