@@ -42,29 +42,14 @@ app.set("views",template_path);
 hbs.registerPartials(partials_path);
 app.set("view engine","ejs");
 
-
 console.log(process.env.SECRET);
-
-// app.use(express.static('public'));
-
-// const storage = multer.diskStorage({
-//     destination:function(req,file,cb){
-//        cb(null,path.join(__dirname, './public/uploads'));
-//     },
-//     filename:function(req,file,cb){
-//        const name = Date.now()+'-'+file.originalname;
-//        cb(null,name);
-//     }
-// });
-// const upload = multer({storage:storage}).single('image');
-
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, './public/uploads')
+        cb(null, './public/uploads/')
     },
     filename: (req, file, cb) => {
-        cb(null,file.fieldname+"_" +Date.now()+path.extname(file.originalname));
-    }
+        cb(null, + Date.now()+file.originalname ,'.jpg','.png')
+    },
 });
 const fileFilter=(req,file,cb)=>{
     if(file.mimetype==='image/jpeg' || file.mimetype==='image/jpg' || file.mimetype==='image/png'){
@@ -199,7 +184,7 @@ app.get('/login',hide.isLogout,(req,res)=>{
     
     res.render("login")
 });
-app.get("/logout",hide.isLogin,async(req,res)=>{
+app.get("/logout",async(req,res)=>{
 //  try{
 
 // req.user.tokens=req.user.tokens.filter((currElement)=>{
