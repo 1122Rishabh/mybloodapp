@@ -1,12 +1,12 @@
 require('dotenv').config();
 const express =require("express");
 const app = express();
-// const path = require("path")
+const path = require("path")
 const hbs = require("hbs");
 const ejs=require("ejs");
 const user_route = express();
 const router=express.Router()
-// const multer =require("multer");
+const multer =require("multer");
 const jwt=require("jsonwebtoken");
 const bodyParser = require('body-parser');
 const fs = require('fs');
@@ -29,8 +29,6 @@ const auth1 = require("./middleware/auth");
 const auth2 = require("./middleware/auth");
 const hide = require("./middleware/hide");
 const cookieParser = require('cookie-parser');
-const multer = require("multer");
-const path = require("path");
 
 
 app.use(express.urlencoded({extended:false}));
