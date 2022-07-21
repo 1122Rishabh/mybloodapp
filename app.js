@@ -58,7 +58,7 @@ console.log(process.env.SECRET);
 // });
 // const upload = multer({storage:storage}).single('image');
 
-const storage = multer.diskStorage({
+const storage = multer.memoryStorage({
     destination: (req, file, cb) => {
         cb(null, static_path)
     },
