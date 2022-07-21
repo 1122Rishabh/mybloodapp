@@ -184,7 +184,7 @@ app.get('/login',hide.isLogout,(req,res)=>{
     
     res.render("login")
 });
-app.get("/logout",async(req,res)=>{
+app.get("/logout",hide.isLogin,async(req,res)=>{
 //  try{
 
 // req.user.tokens=req.user.tokens.filter((currElement)=>{
