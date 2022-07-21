@@ -21,7 +21,7 @@ require("./src/db/conn");
 const Register=require("./src/models/registers")
 const port= process.env.PORT || 5000
 
-// const static_path=path.join(__dirname,"./public")
+const static_path=path.join(__dirname,"./public")
 const template_path=path.join(__dirname,"./templates/views");
 const partials_path=path.join(__dirname,"./templates/partials");
 const auth = require("./middleware/auth");
@@ -33,7 +33,7 @@ const cookieParser = require('cookie-parser');
 
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
-// app.use(express.static(static_path));
+app.use(express.static(static_path));
 app.set("view engine","hbs");
 app.set('view engine','ejs');
 app.use(cookieParser());
@@ -45,41 +45,41 @@ app.set("view engine","ejs");
 
 console.log(process.env.SECRET);
 
-app.use(express.static('public'));
-
-const storage = multer.diskStorage({
-    destination:function(req,file,cb){
-       cb(null,path.join(__dirname, './public/uploads'));
-    },
-    filename:function(req,file,cb){
-       const name = Date.now()+'-'+file.originalname;
-       cb(null,name);
-    }
-});
-const upload = multer({storage:storage}).single('image');
+// app.use(express.static('public'));
 
 // const storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, './public/uploads/')
+//     destination:function(req,file,cb){
+//        cb(null,path.join(__dirname, './public/uploads'));
 //     },
-//     filename: (req, file, cb) => {
-//         cb(null,file.fieldname+"_" +Date.now()+path.extname(file.originalname));
+//     filename:function(req,file,cb){
+//        const name = Date.now()+'-'+file.originalname;
+//        cb(null,name);
 //     }
 // });
-// const fileFilter=(req,file,cb)=>{
-//     if(file.mimetype==='image/jpeg' || file.mimetype==='image/jpg' || file.mimetype==='image/png'){
-//         cb(null,true);
-//     }else{
-//         cb(null,false);
-//     }
+// const upload = multer({storage:storage}).single('image');
 
-// };
-// const upload=multer({storage:storage,
-//     limits:{
-//         fileSize:1024*1024*5
-//     },
-//     fileFilter:fileFilter
-// }).single('image');
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './public/uploads/')
+    },
+    filename: (req, file, cb) => {
+        cb(null,file.fieldname+"_" +Date.now()+path.extname(file.originalname));
+    }
+});
+const fileFilter=(req,file,cb)=>{
+    if(file.mimetype==='image/jpeg' || file.mimetype==='image/jpg' || file.mimetype==='image/png'){
+        cb(null,true);
+    }else{
+        cb(null,false);
+    }
+
+};
+const upload=multer({storage:storage,
+    limits:{
+        fileSize:1024*1024*5
+    },
+    fileFilter:fileFilter
+}).single('image');
 app.get('/cat',(req,res)=>{
     res.render("cat")
 });
