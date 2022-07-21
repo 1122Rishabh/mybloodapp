@@ -167,7 +167,7 @@ app.get('/contact',(req,res)=>{
     res.render("contact")
 
 });
-app.get('/',hide.isLogout,(req,res)=>{
+app.get('/',(req,res)=>{
    res.render("index");
 });
 app.get('/login',hide.isLogout,(req,res)=>{
