@@ -48,8 +48,8 @@ const storage = multer.diskStorage({
         cb(null, './public/uploads/')
     },
     filename: (req, file, cb) => {
-        cb(null, + Date.now()+file.originalname ,'.jpg','.png')
-    },
+        cb(null,file.fieldname+"_" +Date.now()+path.extname(file.originalname));
+    }
 });
 const fileFilter=(req,file,cb)=>{
     if(file.mimetype==='image/jpeg' || file.mimetype==='image/jpg' || file.mimetype==='image/png'){
