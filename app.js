@@ -21,7 +21,7 @@ require("./src/db/conn");
 const Register=require("./src/models/registers")
 const port= process.env.PORT || 5000
 
-const static_path=path.join(__dirname,"")
+const static_path=path.join(__dirname,"./public")
 const template_path=path.join(__dirname,"./templates/views");
 const partials_path=path.join(__dirname,"./templates/partials");
 const auth = require("./middleware/auth");
@@ -58,27 +58,27 @@ console.log(process.env.SECRET);
 // });
 // const upload = multer({storage:storage}).single('image');
 
-const storage = multer.memoryStorage({
+const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, static_path)
+        cb(null, './public/uploads/')
     },
     filename: (req, file, cb) => {
         cb(null,file.fieldname+"_" +Date.now()+path.extname(file.originalname));
     }
 });
-// const fileFilter=(req,file,cb)=>{
-//     if(file.mimetype==='image/jpeg' || file.mimetype==='image/jpg' || file.mimetype==='image/png'){
-//         cb(null,true);
-//     }else{
-//         cb(null,false);
-//     }
+const fileFilter=(req,file,cb)=>{
+    if(file.mimetype==='image/jpeg' || file.mimetype==='image/jpg' || file.mimetype==='image/png'){
+        cb(null,true);
+    }else{
+        cb(null,false);
+    }
 
-// };
+};
 const upload=multer({storage:storage,
-    // limits:{
-    //     fileSize:1024*1024*5
-    // },
-    // fileFilter:fileFilter
+    limits:{
+        fileSize:1024*1024*5
+    },
+    fileFilter:fileFilter
 }).single('image');
 app.get('/cat',(req,res)=>{
     res.render("cat")
