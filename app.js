@@ -28,8 +28,6 @@ const auth = require("./middleware/auth");
 const auth1 = require("./middleware/auth");
 const auth2 = require("./middleware/auth");
 const hide = require("./middleware/hide");
-
-
 const cookieParser = require('cookie-parser');
 
 
@@ -45,7 +43,6 @@ hbs.registerPartials(partials_path);
 app.set("view engine","ejs");
 
 console.log(process.env.SECRET);
-
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, './public/uploads/')
@@ -54,7 +51,6 @@ const storage = multer.diskStorage({
         cb(null, + Date.now()+file.originalname ,'.jpg','.png')
     },
 });
-
 const fileFilter=(req,file,cb)=>{
     if(file.mimetype==='image/jpeg' || file.mimetype==='image/jpg' || file.mimetype==='image/png'){
         cb(null,true);
@@ -63,16 +59,12 @@ const fileFilter=(req,file,cb)=>{
     }
 
 };
-
-var upload=multer({storage:storage,
+const upload=multer({storage:storage,
     limits:{
         fileSize:1024*1024*5
     },
     fileFilter:fileFilter
-}).single('image')
-
-// const upload = multer({ storage: storage });
-
+}).single('image');
 app.get('/cat',(req,res)=>{
     res.render("cat")
 });
@@ -148,9 +140,7 @@ app.get('/userprofile',async(req,res)=>{
     //     else res.render('show',{Register:docs[0]});
     //        });
  
-    });
-    // res.render('userprofile');
-
+});
 app.get('/detail/:id',async(req,res)=>{
     try {
         let recipeId = req.params.id;
@@ -159,13 +149,8 @@ app.get('/detail/:id',async(req,res)=>{
       } catch (error) {
         res.status(500).send({message: error.message || "Error Occured" });
       }
-    } 
-    
-)
+});
 app.get('/ind',async(req,res)=>{
-    
-    
-    
     try {
         const limitNumber = 20;
         const categories = await Register.find({}).limit(limitNumber);
@@ -177,44 +162,7 @@ app.get('/ind',async(req,res)=>{
       } catch (error) {
         res.status(500).send({message: error.message || "Error Occured" });
       }
-    } 
-)
-// app.get('/cat', async(req, res) => {
-//     try {
-//       const limitNumber = 5;
-//       const categories = await Register.find({}).limit(limitNumber);
-      
-//     res.render('cat', { title: 'Cooking Blog - Home', categories, food } );
-// } catch (error) {
-//   res.satus(500).send({message: error.message || "Error Occured" });
-// }
-// })
-
-
-
-
-
-
-
-// app.get('/:id',async(req,res)=>{
-
-//     console.log(req.params.id);
-//     Register.findById(req.params.id)
-//     .then(data=>{
-//         // res.render('show',{records:data});
-//         res.status(200).json({
-            
-//             records:data
-//         })
-//     })
-//     .catch(err=>{
-//         console.log(err);
-//         res.status(500).json({
-//             error:err
-//         })
-//     })
-// });
-
+});
 app.get('/contact',(req,res)=>{
     res.render("contact")
 
@@ -236,7 +184,7 @@ app.get('/login',hide.isLogout,(req,res)=>{
     
     res.render("login")
 });
-app.get("/logout",hide.isLogin,async(req,res)=>{
+app.get("/logout",async(req,res)=>{
 //  try{
 
 // req.user.tokens=req.user.tokens.filter((currElement)=>{
