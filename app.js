@@ -29,6 +29,8 @@ const auth1 = require("./middleware/auth");
 const auth2 = require("./middleware/auth");
 const hide = require("./middleware/hide");
 const cookieParser = require('cookie-parser');
+const multer = require("multer");
+const path = require("path");
 
 
 app.use(express.urlencoded({extended:false}));
@@ -42,29 +44,44 @@ app.set("views",template_path);
 hbs.registerPartials(partials_path);
 app.set("view engine","ejs");
 
+
 console.log(process.env.SECRET);
+
+app.use(express.static('public'));
+
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, './public/uploads/')
+    destination:function(req,file,cb){
+       cb(null,path.join(__dirname, '../public/uploads'));
     },
-    filename: (req, file, cb) => {
-        cb(null,file.fieldname+"_" +Date.now()+path.extname(file.originalname));
+    filename:function(req,file,cb){
+       const name = Date.now()+'-'+file.originalname;
+       cb(null,name);
     }
 });
-const fileFilter=(req,file,cb)=>{
-    if(file.mimetype==='image/jpeg' || file.mimetype==='image/jpg' || file.mimetype==='image/png'){
-        cb(null,true);
-    }else{
-        cb(null,false);
-    }
+const upload = multer({storage:storage}).single('image');
 
-};
-const upload=multer({storage:storage,
-    limits:{
-        fileSize:1024*1024*5
-    },
-    fileFilter:fileFilter
-}).single('image');
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, './public/uploads/')
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null,file.fieldname+"_" +Date.now()+path.extname(file.originalname));
+//     }
+// });
+// const fileFilter=(req,file,cb)=>{
+//     if(file.mimetype==='image/jpeg' || file.mimetype==='image/jpg' || file.mimetype==='image/png'){
+//         cb(null,true);
+//     }else{
+//         cb(null,false);
+//     }
+
+// };
+// const upload=multer({storage:storage,
+//     limits:{
+//         fileSize:1024*1024*5
+//     },
+//     fileFilter:fileFilter
+// }).single('image');
 app.get('/cat',(req,res)=>{
     res.render("cat")
 });
