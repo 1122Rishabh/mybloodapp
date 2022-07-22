@@ -6,7 +6,7 @@ const hbs = require("hbs");
 const ejs=require("ejs");
 const user_route = express();
 const router=express.Router()
-const multer =require("multer");
+// const multer =require("multer");
 const jwt=require("jsonwebtoken");
 const bodyParser = require('body-parser');
 const fs = require('fs');
@@ -15,13 +15,18 @@ const passport=  require("passport");
 const session = require("express-session");
 const config = require("./config/config");
 
+const fileupload=require('express-fileupload');
+// const cloudinaryapp=require('cloudinary').v2;
+const uploadd = require('./handlers/multer');
+const cloudinary = require('./handlers/cloudinery');
+
 const LocalStrategy=require("passport-local");
 const passportLocalMongoose =  require("passport-local-mongoose");
 require("./src/db/conn");
 const Register=require("./src/models/registers")
 const port= process.env.PORT || 5000
 
-const static_path=path.join(__dirname,"./public")
+// const static_path=path.join(__dirname,"./public")
 const template_path=path.join(__dirname,"./templates/views");
 const partials_path=path.join(__dirname,"./templates/partials");
 const auth = require("./middleware/auth");
@@ -33,38 +38,45 @@ const cookieParser = require('cookie-parser');
 
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
-app.use(express.static(static_path));
+// app.use(express.static(static_path));
 app.set("view engine","hbs");
 app.set('view engine','ejs');
 app.use(cookieParser());
 app.use(session({secret:config.sessionSecret}))
 app.set("views",template_path);
 hbs.registerPartials(partials_path);
-app.set("view engine","ejs");
 
+app.use(fileupload({
+    useTempFiles:true
+}));
+// cloudinary.config({
+//     cloud_name:'djjvmuxcg',
+//     api_key:'488427683597718',
+//     api_secret:'g9PjRmOv4IrfJOPFwVISvYb5E1U'
+// });
 console.log(process.env.SECRET);
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, './public/uploads/')
-    },
-    filename: (req, file, cb) => {
-        cb(null, + Date.now()+file.originalname ,'.jpg','.png')
-    },
-});
-const fileFilter=(req,file,cb)=>{
-    if(file.mimetype==='image/jpeg' || file.mimetype==='image/jpg' || file.mimetype==='image/png'){
-        cb(null,true);
-    }else{
-        cb(null,false);
-    }
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, './public/uploads/')
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, + Date.now()+file.originalname ,'.jpg','.png')
+//     },
+// });
+// const fileFilter=(req,file,cb)=>{
+//     if(file.mimetype==='image/jpeg' || file.mimetype==='image/jpg' || file.mimetype==='image/png'){
+//         cb(null,true);
+//     }else{
+//         cb(null,false);
+//     }
 
-};
-const upload=multer({storage:storage,
-    limits:{
-        fileSize:1024*1024*5
-    },
-    fileFilter:fileFilter
-}).single('image');
+// };
+// const upload=multer({storage:storage,
+//     limits:{
+//         fileSize:1024*1024*5
+//     },
+//     fileFilter:fileFilter
+// }).single('image');
 app.get('/cat',(req,res)=>{
     res.render("cat")
 });
@@ -247,41 +259,48 @@ app.get('/Register',hide.isLogout,(req,res)=>{
     res.render("register")
 
 })
-app.post("/Register",upload,async(req,res)=>{
-    // console.log(req.filename);
-    try{
-const repeatpassword=req.body.repeatpassword;
-const createpassword=req.body.createpassword;
-const imageFile=req.file.filename;
-if(repeatpassword===createpassword){
-    const registeremp= new  Register({
-        // userid:req.body.userid,
-        firstname:req.body.firstname,
-        email:req.body.email,
-        phonenumber:req.body.phonenumber,
-        createpassword:createpassword,
-        repeatpassword:repeatpassword,
-        selectjob:req.body.selectjob,
-        image:imageFile
+app.post("/Register",(req,res)=>{
+    console.log(req.body);
+    const file= req.files.image;
+    cloudinary.uploader.upload(file.tempFilePath,(err,result)=>{
+        console.log(result);
+        try{
+            const repeatpassword=req.body.repeatpassword;
+            const createpassword=req.body.createpassword;
+            // const imageFile=req.file.filename;
+            if(repeatpassword===createpassword){
+                const registeremp= new  Register({
+                    // userid:req.body.userid,
+                    firstname:req.body.firstname,
+                    email:req.body.email,
+                    phonenumber:req.body.phonenumber,
+                    createpassword:createpassword,
+                    repeatpassword:repeatpassword,
+                    selectjob:req.body.selectjob,
+                    image:result.url
+                });
+                // const token=registeremp.generateAuthToken();
+                // console.log("the token part"+ token);
+                // res.cookie("jwt",token,{
+                //     expires:new Date(Date.now()+60000),
+                //     httpOnly:true
+                // });
+               
+             registeremp.save(),uploadd.single('image');
+             req.session._id = registeremp._id;
+            
+            res.status(201).redirect("/show");
+            }else{
+                res.send("password is not matching")
+            }
+                }catch(error){
+                    res.status(500).json({message: error});
+                    console.log("There was an error");
+                }
+            
     });
-    const token=await registeremp.generateAuthToken();
-    console.log("the token part"+ token);
-    res.cookie("jwt",token,{
-        expires:new Date(Date.now()+60000),
-        httpOnly:true
-    });
-   
- const registered=await registeremp.save();
- req.session._id = registeremp._id;
 
-res.status(201).redirect("/show");
-}else{
-    res.send("password is not matching")
-}
-    }catch(error){
-        res.status(500).json({message: error});
-        console.log("There was an error");
-    }
+    // console.log(req.filename);
 
 })
 app.listen(port,()=>{
