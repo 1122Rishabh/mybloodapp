@@ -1,59 +1,46 @@
 require('dotenv').config();
 const express =require("express");
 const app = express();
-const path = require("path")
+const path = require("path");
 const hbs = require("hbs");
-const ejs=require("ejs");
-const user_route = express();
-const router=express.Router()
-// const multer =require("multer");
+const multer =require("multer");
 const jwt=require("jsonwebtoken");
-const bodyParser = require('body-parser');
-const fs = require('fs');
-const  User=  require("./src/models/registers");
-const passport=  require("passport");
 const session = require("express-session");
 const config = require("./config/config");
-
 const fileupload=require('express-fileupload');
-// const cloudinaryapp=require('cloudinary').v2;
 const uploadd = require('./handlers/multer');
 const cloudinary = require('./handlers/cloudinery');
-
-const LocalStrategy=require("passport-local");
-const passportLocalMongoose =  require("passport-local-mongoose");
 require("./src/db/conn");
 const Register=require("./src/models/registers")
 const port= process.env.PORT || 5000
 
-// const static_path=path.join(__dirname,"./public")
+const static_path=path.join(__dirname,"./public")
 const template_path=path.join(__dirname,"./templates/views");
 const partials_path=path.join(__dirname,"./templates/partials");
 const auth = require("./middleware/auth");
-const auth1 = require("./middleware/auth");
-const auth2 = require("./middleware/auth");
+// const auth1 = require("./middleware/auth");
+// const auth2 = require("./middleware/auth");
 const hide = require("./middleware/hide");
 const cookieParser = require('cookie-parser');
 
 
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
-// app.use(express.static(static_path));
+app.use(express.static(static_path));
 app.set("view engine","hbs");
 app.set('view engine','ejs');
 app.use(cookieParser());
 app.use(session({secret:config.sessionSecret}))
 app.set("views",template_path);
 hbs.registerPartials(partials_path);
+app.set("view engine","ejs");
+
 
 app.use(fileupload({
     useTempFiles:true
 }));
-// cloudinary.config({
-//     cloud_name:'djjvmuxcg',
-//     api_key:'488427683597718',
-//     api_secret:'g9PjRmOv4IrfJOPFwVISvYb5E1U'
-// });
+
+
 console.log(process.env.SECRET);
 // const storage = multer.diskStorage({
 //     destination: (req, file, cb) => {
@@ -138,6 +125,19 @@ app.get('/userprofile',async(req,res)=>{
     } catch (error) {
         console.log(error.message);
     }
+    // try{
+    //     let userId = req.params.id;
+    //     const userdata = await Register.findById(userId);
+    //     res.render('userprofile', { title: 'Cooking Blog - Recipe', userdata } );
+    // } catch (error) {    //     res.status(500).send({message: error.message || "Error Occured" });
+    //   }
+      
+    
+    
+    //  Register.findById({_id:req.params.id},function(err,docs){
+    //     if(err)res.json(err);
+    //     else res.render('show',{Register:docs[0]});
+    //        });
  
 });
 app.get('/detail/:id',async(req,res)=>{
@@ -211,66 +211,6 @@ console.log("logout susscessfully");
 //  }
 
 });
-app.get("/edit",async(req,res)=>{
-    try {
-        
-        const id = req.query.id;
- 
-        const userData = await Register.findById({ _id:id });
- 
-        if(userData){
-            res.render('edit',{ user:userData });
-        }
-        else{
-            res.redirect('/userprofile');
-        }
- 
-     } catch (error) {
-         console.log(error.message);
-     }
-});
-// app.put("/edit",async(req,res)=>{
-//     const file= req.files.image;
-//     cloudinary.uploader.upload(file.tempFilePath,(err,result)=>{
-//     try {
-//         let user =await Register.findById(req.params.id);
-//         const file= req.files.image;
-//         await cloudinary.uploader.destroy(user.image);
-
-//         const result=await cloudinary.uploader.upload(file.tempFilePath,(err,result)=>{
-//             console.log(result);
-//             const data={
-//                 image:result.url || user.image,
-//             };
-//             user=await Register.findByIdAndUpdate(req.params.id,data,{new:true});
-//             res.json(user);
-//         })
-//            } catch(err){
-//                 console.log(err);
-//             }
-//         })
-//     })
-
-app.post("/edit",async(req,res)=>{
-    const file= req.files.image;
-    console.log(req.body);
-    cloudinary.uploader.upload(file.tempFilePath,(err,result)=>{
-        console.log(result);
-      try{
-        // if(req.file){
-        //     const userData =  Register.findByIdAndUpdate({ _id:req.body.user_id },{ $set:{firstname:req.body.firstname, email:req.body.email, phonenumber:req.body.phonenumber, image:file.result.url} });
-        // }  
-        // else{
-           const userData =  Register.findByIdAndUpdate({ _id:req.body.user_id },{ $set:{firstname:req.body.firstname, email:req.body.email, phonenumber:req.body.phonenumber,image:req.result} });
-        // }
-
-        res.redirect('/userprofile'),uploadd.single('image');
-
-    } catch (error) {
-        console.log(error.message);
-    }
-})
-})
 
 app.post('/login',async(req,res)=>{
     try{
@@ -350,6 +290,7 @@ app.post("/Register",(req,res)=>{
     // console.log(req.filename);
 
 })
+
 app.listen(port,()=>{
     console.log(`app is running on port ${port}`)
 }) 
