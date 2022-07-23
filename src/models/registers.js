@@ -33,8 +33,14 @@ const employeeSchema=new mongoose.Schema({
         // required:true,
         // unique:true
     },
-    selectjob:{
-        type:String
+
+    selectbloodgroup:{
+        type:String,
+    },
+    
+    address:{
+     type:String
+
     },
     image:{
     type:String

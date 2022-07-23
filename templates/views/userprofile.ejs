@@ -1,20 +1,44 @@
-<h1>
-  
-</h1>
-<table width="50%">
-    <tr>
-        <td><img src="<%= user.image %>" width="100px" height="100px" alt="<%= user.image %>"></td>
-    </tr>
-    <tr>
-        <td>Email</td>
-        <td><%= user.email %></td>
-    </tr>
-    <tr>
-        <td>Mobile</td>
-        <td><%= user.phonenumber %></td>
-    </tr>
-    <tr>
-        <td>Verified</td>
+<!DOCTYPE html>
+<html>
+<head>
+  <%- include('../partials/navbar1'); %>
 
-    </tr>
-</table>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <body class="body " style="text-align: center;">
+        <!-- <a href="/edit?id=<%= user._id %>"class="btn btn-danger img-fluid sticky-top" style="color: rgb(19, 7, 3);background: linear-gradient(10deg,rgba(223, 128, 207, 0.521) 30% ,rgb(67, 181, 247) 70%);box-shadow: 0px 6px 5px rgba(0, 0, 0, 0.61);margin-bottom: 12px;" type="submit">Edit Profile</button></a> -->
+    
+        <a href="/edit?id=<%= user._id %>">Edit</a>
+
+
+  <!-- background:linear-gradient(10deg, rgba(120, 241, 160, 0.678) 30%, rgb(201, 70, 53) 70%); -->
+  
+  <div class="card" style="width: 25rem;text-align: center;border-radius: 7%;margin: 0 auto;float: none;margin-bottom: 10px;box-shadow: 0px 6px 5px rgb(65, 150, 100);">
+    <img class="card-img-top" style="border-radius: 7%;" src="<%= user.image %>" alt="Card image cap">
+
+    <div class="card-body " style="text-align: center;">
+  
+
+</div>
+<div class="col-12" style="white-space: pre-line;text-align: center;font-weight: bold; font-size: 1.5em;"><%- user.firstname %> </div>
+<div class="col-12" style="white-space: pre-line;text-align: center;font-weight: bold; font-size: 1.5em;"><%- user.email %> </div>
+<div class="col-12" style="white-space: pre-line;text-align: center;font-weight: bold; font-size: 1.5em;"><%- user.address %> </div>
+<div class="col-12" style="white-space: pre-line;text-align: center;font-weight: bold; font-size: 1.5em;"><%- user.phonenumber %> </div>
+<div class="col-12" style="white-space: pre-line;text-align: center;font-weight: bold; font-size: 1.5em;"><%- user.selectbloodgroup %></div>
+
+
+</div>
+
+  </div> 
+
+
+</body>
+</html>
+
+
+
+
+
+

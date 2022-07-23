@@ -138,19 +138,6 @@ app.get('/userprofile',async(req,res)=>{
     } catch (error) {
         console.log(error.message);
     }
-    // try{
-    //     let userId = req.params.id;
-    //     const userdata = await Register.findById(userId);
-    //     res.render('userprofile', { title: 'Cooking Blog - Recipe', userdata } );
-    // } catch (error) {    //     res.status(500).send({message: error.message || "Error Occured" });
-    //   }
-      
-    
-    
-    //  Register.findById({_id:req.params.id},function(err,docs){
-    //     if(err)res.json(err);
-    //     else res.render('show',{Register:docs[0]});
-    //        });
  
 });
 app.get('/detail/:id',async(req,res)=>{
@@ -224,7 +211,66 @@ console.log("logout susscessfully");
 //  }
 
 });
+app.get("/edit",async(req,res)=>{
+    try {
+        
+        const id = req.query.id;
+ 
+        const userData = await Register.findById({ _id:id });
+ 
+        if(userData){
+            res.render('edit',{ user:userData });
+        }
+        else{
+            res.redirect('/userprofile');
+        }
+ 
+     } catch (error) {
+         console.log(error.message);
+     }
+});
+// app.put("/edit",async(req,res)=>{
+//     const file= req.files.image;
+//     cloudinary.uploader.upload(file.tempFilePath,(err,result)=>{
+//     try {
+//         let user =await Register.findById(req.params.id);
+//         const file= req.files.image;
+//         await cloudinary.uploader.destroy(user.image);
 
+//         const result=await cloudinary.uploader.upload(file.tempFilePath,(err,result)=>{
+//             console.log(result);
+//             const data={
+//                 image:result.url || user.image,
+//             };
+//             user=await Register.findByIdAndUpdate(req.params.id,data,{new:true});
+//             res.json(user);
+//         })
+//            } catch(err){
+//                 console.log(err);
+//             }
+//         })
+//     })
+
+app.post("/edit",async(req,res)=>{
+    const file= req.files.image;
+    console.log(req.body);
+    cloudinary.uploader.upload(file.tempFilePath,(err,result)=>{
+        console.log(result);
+      try{
+        // if(req.file){
+        //     const userData =  Register.findByIdAndUpdate({ _id:req.body.user_id },{ $set:{firstname:req.body.firstname, email:req.body.email, phonenumber:req.body.phonenumber, image:file.result.url} });
+        // }  
+        // else{
+           const userData =  Register.findByIdAndUpdate({ _id:req.body.user_id },{ $set:{firstname:req.body.firstname, email:req.body.email, phonenumber:req.body.phonenumber,image:req.result} });
+        // }
+
+        res.redirect('/userprofile'),uploadd.single('image');
+
+    } catch (error) {
+        console.log(error.message);
+    }
+})
+})
 
 app.post('/login',async(req,res)=>{
     try{
@@ -276,7 +322,8 @@ app.post("/Register",(req,res)=>{
                     phonenumber:req.body.phonenumber,
                     createpassword:createpassword,
                     repeatpassword:repeatpassword,
-                    selectjob:req.body.selectjob,
+                    selectbloodgroup:req.body.selectbloodgroup,
+                    address:req.body.address,
                     image:result.url
                 });
                 // const token=registeremp.generateAuthToken();

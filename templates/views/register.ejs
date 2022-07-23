@@ -12,7 +12,7 @@
 
 
 
-<section class="vh-100" style="background-color: #bea44d;min-height: 0;">
+<section class="vh-100" style="background:linear-gradient(10deg, rgba(0, 255, 242, 0.678) 30%, rgb(201, 70, 53) 70%);">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col col-xl-10">
@@ -36,7 +36,7 @@
 
 		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
 		 </div>
-        <input name="firstname" class="form-control" placeholder="firstname" type="text">
+        <input name="firstname" class="form-control" placeholder="Name" type="text">
     </div> <!-- form-group// -->
     
     <div class="form-group input-group">
@@ -45,54 +45,72 @@
         
 		    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
 		 </div>
-        <input name="email" class="form-control" placeholder="email" type="email">
+        <input name="email" class="form-control" placeholder="Email" type="email">
     </div> <!-- form-group// -->
+   
+    <div class="form-group input-group">
+    
+      <div class="input-group-prepend">
+  
+          <span class="input-group-text"> <i class="fa fa-address-card"></i> </span>
+       </div>
+          <input name="address" class="form-control" placeholder="Address" type="text">
+      </div> <!-- form-group// -->
+
+      <div class="form-group input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+      </div>
+  
+      <select class="custom-select" style="max-width: 120px;">
+          <option selected="">+91</option>
+          <option value="1">+92</option>
+          <option value="2">+13</option>
+          <option value="3">+34</option>
+      </select>
+      
+        <input name="phonenumber" class="form-control" placeholder="Phone" type="text">
+      </div> <!-- form-group// -->
     <div class="form-group input-group">
     	<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+		    <span class="input-group-text"> <i class="fa fa-plus-square"></i> </span>
 		</div>
-		<select class="custom-select" style="max-width: 120px;">
-		    <option selected="">+91</option>
-		    <option value="1">+92</option>
-		    <option value="2">+13</option>
-		    <option value="3">+34</option>
-		</select>
-    	<input name="phonenumber" class="form-control" placeholder="phonenumber" type="text">
-    </div> <!-- form-group// -->
-    <div class="form-group input-group">
-    	<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-building"></i> </span>
-		</div>
-		<select name="selectjob" class="form-control">
-			<option selected=""> Select job type</option>
-			<option>Designer</option>
-			<option>Manager</option>
-			<option>Accaunting</option>
+		<select name="selectbloodgroup" class="form-control">
+			<option selected=""> Select Blood Group</option>
+			<option>B+</option>
+			<option>O+</option>
+			<option>AB-</option>
+      <option>O-</option>
+      <option>B-</option>
+      <option>AB+</option>
 		</select>
 	</div> <!-- form-group end.// -->
     <div class="form-group input-group">
     	<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
 		</div>
-        <input name="createpassword" class="form-control" placeholder="createpassword" type="password">
+        <input name="createpassword" class="form-control" placeholder="Password" type="password">
     </div> <!-- form-group// -->
     <div class="form-group input-group">
     	<div class="input-group-prepend">
 		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
 		</div>
-        <input name="repeatpassword" class="form-control" placeholder="repeatpassword" type="password">
+        <input name="repeatpassword" class="form-control" placeholder="Confirm Password" type="password">
     </div> 
     <div class="col-12">
-      <label for="image">Product Image</label>
+      <label for="image">Profile Photo</label>
       <input type="file" class="form-control" name="image" accept="image/*">
     </div>
+
+    <br>
+
 
     <!-- form-group// -->                             
     
   
 
     <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-block"> Create Account  </button>
+        <button type="submit" class="btn btn-primary btn-block"> Register Details  </button>
     </div> <!-- form-group// -->      
     <p class="text-center">Have an account? <a href="/login">Log In</a> </p>       
                                                               

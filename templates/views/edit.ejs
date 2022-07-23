@@ -1,0 +1,19 @@
+
+
+<img src="<%= user.image %>" width="100px" height="100px" alt="<%= user.image %>">
+
+<form action="" method="POST" enctype="multipart/form-data">
+
+    <input type="file" name="image">
+    <input type="hidden" name="user_id" value="<%= user._id %>">
+    <br><br>
+   <input type="text" name="firstname" value="<%= user.firstname %>" placeholder="Enter Name" required>
+   <br><br>
+   <input type="email" name="email" value="<%= user.email %>" placeholder="Enter Email" required>
+   <br><br>
+   <input type="text" name="phonenumber" value="<%= user.phonenumber %>" placeholder="Enter Mobile" required>
+<br>
+    <input type="submit" value="Update Profile">
+
+</form>
+
