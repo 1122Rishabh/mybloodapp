@@ -21,6 +21,8 @@
         "express": "^4.18.1",
         "express-fileupload": "^1.4.0",
         "express-session": "^1.17.3",
+        "forest-express-mongoose": "^8.7.4",
+        "forest-express-sequelize": "^8.5.10",
         "hbs": "^4.2.0",
         "jsonwebtoken": "^8.5.1",
         "mongoose": "^6.4.1",
